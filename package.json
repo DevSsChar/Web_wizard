@@ -1,23 +1,36 @@
 {
   "name": "webwizard",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "node server.js",
+    "dev:next": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
+    "start:next": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.55",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "gridfs-stream": "^1.1.1",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.20.0",
     "mongoose": "^8.18.2",
+    "multer": "^1.4.4-lts.1",
+    "multer-gridfs-storage": "^5.0.2",
     "next": "15.5.4",
     "next-auth": "^4.24.11",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "shadcn": "^3.3.1"
+    "shadcn": "^3.3.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
