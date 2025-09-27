@@ -2,10 +2,13 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
+import { User, LogOut } from 'lucide-react'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const { data: session, status } = useSession()
 
   return (
     <motion.nav 
@@ -57,9 +60,9 @@ export default function Navbar() {
             <Link href="#security" className="text-gray-300 hover:text-white transition-colors">
               Security
             </Link>
-            <Link href="#pricing" className="text-gray-300 hover:text-white transition-colors">
+            {/* <Link href="#pricing" className="text-gray-300 hover:text-white transition-colors">
               Pricing
-            </Link>
+            </Link> */}
             <Link href="#about" className="text-gray-300 hover:text-white transition-colors">
               About
             </Link>
@@ -72,22 +75,60 @@ export default function Navbar() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="hidden lg:flex items-center gap-3"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link 
-                href="/login" 
-                className="px-4 py-2 text-sm text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all"
-              >
-                Login
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link 
-                href="/chat" 
-                className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-              >
-                Join Chat
-              </Link>
-            </motion.div>
+            {session ? (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 px-3 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
+                  {session.user?.image ? (
+                    <img 
+                      src={session.user.image} 
+                      alt="Profile" 
+                      className="w-6 h-6 rounded-full"
+                    />
+                  ) : (
+                    <User className="w-5 h-5 text-gray-400" />
+                  )}
+                  <span className="text-sm text-gray-300">
+                    {session.user?.name || session.user?.email}
+                  </span>
+                </div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    href="/dashboard" 
+                    className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                </motion.div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => signOut()}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  title="Sign out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </motion.button>
+              </div>
+            ) : (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    href="/login" 
+                    className="px-4 py-2 text-sm text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all"
+                  >
+                    Login
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    href="/dashboard" 
+                    className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                  >
+                    Get Started
+                  </Link>
+                </motion.div>
+              </>
+            )}
           </motion.div>
 
           {/* Mobile menu button */}
@@ -130,25 +171,58 @@ export default function Navbar() {
               <Link href="#security" className="block text-gray-300 hover:text-white transition-colors">
                 Security
               </Link>
-              <Link href="#pricing" className="block text-gray-300 hover:text-white transition-colors">
+              {/* <Link href="#pricing" className="block text-gray-300 hover:text-white transition-colors">
                 Pricing
-              </Link>
+              </Link> */}
               <Link href="#about" className="block text-gray-300 hover:text-white transition-colors">
                 About
               </Link>
               <div className="pt-4 border-t border-white/10 space-y-3">
-                <Link 
-                  href="/login" 
-                  className="block px-4 py-2 text-center text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all"
-                >
-                  Login
-                </Link>
-                <Link 
-                  href="/chat" 
-                  className="block px-4 py-2 text-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                >
-                  Join Chat
-                </Link>
+                {session ? (
+                  <>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
+                      {session.user?.image ? (
+                        <img 
+                          src={session.user.image} 
+                          alt="Profile" 
+                          className="w-6 h-6 rounded-full"
+                        />
+                      ) : (
+                        <User className="w-5 h-5 text-gray-400" />
+                      )}
+                      <span className="text-sm text-gray-300">
+                        {session.user?.name || session.user?.email}
+                      </span>
+                    </div>
+                    <Link 
+                      href="/dashboard" 
+                      className="block px-4 py-2 text-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={() => signOut()}
+                      className="block w-full px-4 py-2 text-center text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link 
+                      href="/login" 
+                      className="block px-4 py-2 text-center text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all"
+                    >
+                      Login
+                    </Link>
+                    <Link 
+                      href="/dashboard" 
+                      className="block px-4 py-2 text-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                    >
+                      Get Started
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>

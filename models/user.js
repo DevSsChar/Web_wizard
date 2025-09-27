@@ -14,6 +14,48 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    bio: {
+      type: String,
+      maxlength: 500,
+    },
+    username: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    phone: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    company: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
+    isProfileCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    preferences: {
+      theme: {
+        type: String,
+        enum: ['light', 'dark', 'system'],
+        default: 'dark',
+      },
+      notifications: {
+        email: {
+          type: Boolean,
+          default: true,
+        },
+        push: {
+          type: Boolean,
+          default: true,
+        },
+      },
+    },
   },
   {
     timestamps: true,
