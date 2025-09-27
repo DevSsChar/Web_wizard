@@ -159,25 +159,74 @@ io.on('connection', (socket) => {
 		try {
 			const room = await ChatRoom.findOne({ roomId });
 			if (!room) return socket.emit('error', 'Room not found');
+			
+			// Add user to room participants if not already there
+			if (!room.participants.includes(socket.user.id)) {
+				room.participants.push(socket.user.id);
+				await room.save();
+			}
+			
 			socket.join(roomId);
 			const history = await getLastMessages({ roomId });
+			console.log(`Sending history for room ${roomId}:`, history.length, 'messages');
 			socket.emit('history', { roomId, messages: history });
-			socket.to(roomId).emit('system', `${socket.user.name} joined`);
+			
+			// Notify other users about join
+			socket.to(roomId).emit('system', {
+				roomId,
+				message: `${socket.user.name} joined the chat`,
+				type: 'join'
+			});
+			
+			// Send room info back to client
+			socket.emit('roomJoined', { room });
+			
 		} catch (e) { 
 			console.error('joinRoom error', e);
 			socket.emit('error', e.message); 
 		}
 	});
 
-	socket.on('leaveRoom', ({ roomId }) => {
-		socket.leave(roomId);
-		socket.to(roomId).emit('system', `${socket.user.name} left`);
+	socket.on('leaveRoom', async ({ roomId }) => {
+		try {
+			// Remove user from room participants
+			const room = await ChatRoom.findOne({ roomId });
+			if (room) {
+				room.participants = room.participants.filter(p => p.toString() !== socket.user.id);
+				await room.save();
+			}
+			
+			socket.leave(roomId);
+			
+			// Notify other users about leave
+			socket.to(roomId).emit('system', {
+				roomId,
+				message: `${socket.user.name} left the chat`,
+				type: 'leave'
+			});
+		} catch (e) {
+			console.error('leaveRoom error', e);
+		}
+	});
+	
+	// Typing indicators
+	socket.on('typing', ({ roomId, isTyping }) => {
+		socket.to(roomId).emit('userTyping', {
+			roomId,
+			username: socket.user.name,
+			isTyping
+		});
 	});
 
 	socket.on('newMessage', async ({ roomId, type, text }) => {
 		try {
-			const msg = await sendMessage({ roomId, senderId: socket.user.id, type, text });
+			if (!text || !text.trim()) {
+				return socket.emit('error', 'Message text is required');
+			}
+			
+			const msg = await sendMessage({ roomId, senderId: socket.user.id, type: type || 'text', text: text.trim() });
 			const payload = { ...presentMessage(msg), roomId };
+			console.log('Broadcasting message to room:', roomId, payload);
 			io.to(roomId).emit('message', payload);
 		} catch (e) { 
 			console.error('newMessage error', e);
@@ -193,6 +242,13 @@ io.on('connection', (socket) => {
 			console.error('editMessage error', e);
 			socket.emit('error', e.message); 
 		}
+	});
+	
+	// Handle disconnect
+	socket.on('disconnect', (reason) => {
+		console.log(`User ${socket.user?.name} disconnected:`, reason);
+		// Note: socket.rooms contains all rooms the user was in
+		// Notify all rooms about user disconnect if needed
 	});
 });
 
@@ -211,7 +267,8 @@ export function startServer(port = process.env.PORT || 4000) {
 }
 
 // If executed directly (node backend/server.mjs)
-if (process.argv[1] === new URL(import.meta.url).pathname) {
-	startServer();
-}
+console.log('[debug] process.argv[1]:', process.argv[1]);
+console.log('[debug] import.meta.url:', import.meta.url);
+console.log('[debug] Starting server...');
+startServer();
 
