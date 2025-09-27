@@ -211,6 +211,7 @@ io.on('connection', (socket) => {
 	
 	// Typing indicators
 	socket.on('typing', ({ roomId, isTyping }) => {
+		console.log(`User ${socket.user.name} ${isTyping ? 'started' : 'stopped'} typing in room ${roomId}`);
 		socket.to(roomId).emit('userTyping', {
 			roomId,
 			username: socket.user.name,

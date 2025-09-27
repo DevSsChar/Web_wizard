@@ -1,12 +1,11 @@
 "use client";
 import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import io from 'socket.io-client';
-import { useToast } from '../ui/toast';
+import toast from 'react-hot-toast';
 
 const ChatContext = createContext(null);
 
 export function ChatProvider({ token, children }) {
-  const toast = useToast();
   const socketRef = useRef(null);
   const [connected, setConnected] = useState(false);
   const [rooms, setRooms] = useState({}); // roomId -> { messages, participants }
@@ -119,9 +118,25 @@ export function ChatProvider({ token, children }) {
           };
         });
         
-        // Show toast notification if message is not from current user
+        // Show notification if message is not from current user
         if (msg.sender?.username !== user?.username) {
-          toast.info(`${msg.sender?.username || 'Someone'}: ${msg.text}`, 3000);
+          // Toast notification
+          toast(`New message from ${msg.sender?.username || 'Someone'}`, {
+            duration: 2000,
+            position: 'top-right',
+            style: {
+              background: '#3B82F6',
+              color: '#fff',
+            },
+          });
+          
+          // Browser notification
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification(`New message in ${joinedRooms[roomId]?.name || 'Chat'}`, {
+              body: `${msg.sender?.username || 'Someone'}: ${msg.text}`,
+              icon: '/favicon.ico'
+            });
+          }
         }
       }
     });
@@ -129,16 +144,20 @@ export function ChatProvider({ token, children }) {
     // Typing indicators
     socket.on('userTyping', ({ roomId, username, isTyping: typing }) => {
       console.log('User typing:', { roomId, username, typing });
+      if (!username || !roomId) return;
+      
       setTypingUsers(prev => {
         const roomTyping = prev[roomId] || [];
         if (typing) {
           if (!roomTyping.includes(username)) {
+            console.log('Adding typing user:', username, 'to room:', roomId);
             return {
               ...prev,
               [roomId]: [...roomTyping, username]
             };
           }
         } else {
+          console.log('Removing typing user:', username, 'from room:', roomId);
           return {
             ...prev,
             [roomId]: roomTyping.filter(u => u !== username)
@@ -175,11 +194,31 @@ export function ChatProvider({ token, children }) {
         
         // Show toast notification for join/leave
         if (type === 'join') {
-          toast.success(message, 3000);
+          toast.success(message, {
+            duration: 3000,
+            position: 'top-right',
+            style: {
+              background: '#10B981',
+              color: '#fff',
+            },
+          });
         } else if (type === 'leave') {
-          toast.warning(message, 3000);
-        } else {
-          toast.info(message, 3000);
+          toast(message, {
+            duration: 3000,
+            position: 'top-right',
+            style: {
+              background: '#6B7280',
+              color: '#fff',
+            },
+          });
+        }
+        
+        // Browser notification
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification(`${joinedRooms[roomId]?.name || 'Chat Room'}`, {
+            body: message,
+            icon: '/favicon.ico'
+          });
         }
       }
     });
@@ -340,10 +379,14 @@ export function ChatProvider({ token, children }) {
   }, [connected, isTyping]);
   
   const startTyping = useCallback((roomId) => {
-    if (!socketRef.current || !connected || isTyping) return;
+    if (!socketRef.current || !connected || !roomId) return;
     
-    setIsTyping(true);
-    socketRef.current.emit('typing', { roomId, isTyping: true });
+    console.log('Starting typing for room:', roomId);
+    
+    if (!isTyping) {
+      setIsTyping(true);
+      socketRef.current.emit('typing', { roomId, isTyping: true });
+    }
     
     // Clear existing timeout
     if (typingTimeoutRef.current) {
@@ -354,6 +397,7 @@ export function ChatProvider({ token, children }) {
     typingTimeoutRef.current = setTimeout(() => {
       setIsTyping(false);
       if (socketRef.current && connected) {
+        console.log('Auto-stopping typing for room:', roomId);
         socketRef.current.emit('typing', { roomId, isTyping: false });
       }
     }, 3000);

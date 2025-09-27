@@ -6,16 +6,17 @@ import { Hash, Lock, Globe, X, Users } from 'lucide-react';
 import { useChat } from './ChatProvider';
 
 export default function RoomList({ rooms, onSelect, activeRoom }) {
-  const { publicRooms, loadPublicRooms, loadRooms, joinRoom, leaveRoom } = useChat();
+  const { publicRooms, loadPublicRooms, loadRooms, joinRoom, leaveRoom, user } = useChat();
   const [filter, setFilter] = useState('');
-  const [showPublic, setShowPublic] = useState(false);
+  const [showPublic, setShowPublic] = useState(true);
+  const [roomParticipants, setRoomParticipants] = useState({});
   
   const joinedRoomsList = Object.values(rooms || {}).filter(r => 
     !filter || r.name?.toLowerCase().includes(filter.toLowerCase()) || r.roomId?.includes(filter)
   );
   
   const publicRoomsList = publicRooms.filter(r => 
-    !r.isPrivate && !rooms[r.roomId] && (!filter || r.name?.toLowerCase().includes(filter.toLowerCase()) || r.roomId?.includes(filter))
+    !rooms[r.roomId] && (!filter || r.name?.toLowerCase().includes(filter.toLowerCase()) || r.roomId?.includes(filter))
   );
 
   useEffect(() => {
@@ -27,16 +28,38 @@ export default function RoomList({ rooms, onSelect, activeRoom }) {
   const handleJoinPublicRoom = async (roomId) => {
     try {
       await joinRoom(roomId);
-      setShowPublic(false);
     } catch (error) {
       console.error('Failed to join room:', error);
     }
   };
+  
+  // Load room participants
+  const loadRoomParticipants = async (roomId) => {
+    try {
+      const response = await fetch(`/api/chatrooms/${roomId}/participants`);
+      if (response.ok) {
+        const data = await response.json();
+        setRoomParticipants(prev => ({
+          ...prev,
+          [roomId]: data.participants || []
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to load participants:', error);
+    }
+  };
+  
+  // Load participants for active room
+  useEffect(() => {
+    if (activeRoom) {
+      loadRoomParticipants(activeRoom);
+    }
+  }, [activeRoom]);
 
   return (
-    <div className="space-y-4 h-full flex flex-col">
+    <div className="space-y-4">
       {/* Joined Rooms */}
-      <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-4 flex-1 min-h-0 flex flex-col">
+      <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-white flex items-center space-x-2">
             <Users className="w-4 h-4" />
@@ -54,7 +77,7 @@ export default function RoomList({ rooms, onSelect, activeRoom }) {
           onChange={e => setFilter(e.target.value)}
         />
         
-        <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent" style={{ minHeight: 0 }}>
+        <div className="space-y-2 max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent" style={{ minHeight: 0 }}>
           {joinedRoomsList.length === 0 && (
             <div className="text-center py-8 text-gray-500">
               <Hash className="w-8 h-8 mx-auto mb-2 opacity-50" />
@@ -85,7 +108,11 @@ export default function RoomList({ rooms, onSelect, activeRoom }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-white font-medium text-sm truncate">{r.name}</div>
-                  <div className="text-gray-400 text-xs">#{r.roomId}</div>
+                  <div className="text-gray-400 text-xs flex items-center space-x-2">
+                    <span>#{r.roomId}</span>
+                    <span>•</span>
+                    <span>{roomParticipants[r.roomId]?.length || r.participants?.length || 0} users</span>
+                  </div>
                 </div>
               </div>
               
@@ -114,7 +141,7 @@ export default function RoomList({ rooms, onSelect, activeRoom }) {
       </div>
 
       {/* Public Rooms */}
-      <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-4 flex-shrink-0">
+      <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-white flex items-center space-x-2">
             <Globe className="w-4 h-4" />

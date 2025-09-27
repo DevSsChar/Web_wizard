@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
 import ChatDashboard from '@/components/chat/ChatDashboard';
-import { ToastProvider } from '@/components/ui/toast';
 import { MessageCircle, AlertCircle, User } from 'lucide-react';
 
 export default function ChatPage() {
@@ -81,7 +80,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col overflow-hidden">
+    <div className="min-h-[calc(100vh-80px)] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col">
       <div className="flex-shrink-0 p-6 pb-4">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -94,10 +93,8 @@ export default function ChatPage() {
         </div>
       </div>
       
-      <div className="flex-1 px-6 pb-6 min-h-0">
-        <ToastProvider>
-          <ChatDashboard token={token} />
-        </ToastProvider>
+      <div className="flex-1 px-6 pb-6">
+        <ChatDashboard token={token} />
       </div>
     </div>
   );

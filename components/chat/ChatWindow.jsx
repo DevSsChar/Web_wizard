@@ -8,6 +8,8 @@ import { Send, Users, Hash } from 'lucide-react';
 export default function ChatWindow({ room }) {
   const { rooms, sendMessage, activeRoom, connected, typingUsers, startTyping, stopTyping } = useChat();
   const [text, setText] = useState('');
+  const [participants, setParticipants] = useState([]);
+  const [showParticipants, setShowParticipants] = useState(false);
   const messages = rooms[activeRoom]?.messages || [];
   const typingInRoom = typingUsers[activeRoom] || [];
   const bottomRef = useRef(null);
@@ -20,6 +22,26 @@ export default function ChatWindow({ room }) {
       }, 100);
     }
   }, [messages.length]);
+  
+  // Load participants when room changes
+  useEffect(() => {
+    if (activeRoom) {
+      loadParticipants();
+    }
+  }, [activeRoom]);
+  
+  const loadParticipants = async () => {
+    if (!activeRoom) return;
+    try {
+      const response = await fetch(`/api/chatrooms/${activeRoom}/participants`);
+      if (response.ok) {
+        const data = await response.json();
+        setParticipants(data.participants || []);
+      }
+    } catch (error) {
+      console.error('Failed to load participants:', error);
+    }
+  };
 
   if (!room) {
     return (
@@ -89,15 +111,29 @@ export default function ChatWindow({ room }) {
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-2 text-gray-400">
-            <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
-            <span className="text-sm">{connected ? 'Connected' : 'Disconnected'}</span>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => setShowParticipants(!showParticipants)}
+              className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-200 px-3 py-1 rounded-lg hover:bg-gray-800/50"
+            >
+              <Users className="w-4 h-4" />
+              <span className="text-sm">{participants.length}</span>
+            </button>
+            <div className="flex items-center space-x-2 text-gray-400">
+              <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+              <span className="text-sm">{connected ? 'Connected' : 'Disconnected'}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent" style={{ minHeight: 0 }}>
+      {/* Main Content - Chat and Participants */}
+      <div className="flex flex-1 overflow-hidden">
+
+        {/* Chat Section */}
+        <div className="flex-1 flex flex-col">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent" style={{ minHeight: 0 }}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
             <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
@@ -175,32 +211,70 @@ export default function ChatWindow({ room }) {
           </div>
         )}
         
-        <div ref={bottomRef} />
-      </div>
-
-      {/* Input */}
-      <div className="p-4 border-t border-gray-800 bg-gray-900/70 flex-shrink-0">
-        <form onSubmit={submit} className="flex space-x-3">
-          <div className="flex-1 relative">
-            <Input
-              ref={inputRef}
-              value={text}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              placeholder={connected ? "Type a message..." : "Connecting..."}
-              disabled={!connected}
-              className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500/20 pr-12"
-              maxLength={1000}
-            />
+          <div ref={bottomRef} />
           </div>
-          <Button
-            type="submit"
-            disabled={!text.trim() || !connected}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 px-4"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
-        </form>
+
+          {/* Input */}
+          <div className="p-4 border-t border-gray-800 bg-gray-900/70 flex-shrink-0">
+            <form onSubmit={submit} className="flex space-x-3">
+              <div className="flex-1 relative">
+                <Input
+                  ref={inputRef}
+                  value={text}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  placeholder={connected ? "Type a message..." : "Connecting..."}
+                  disabled={!connected}
+                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500/20 pr-12"
+                  maxLength={1000}
+                />
+              </div>
+              <Button
+                type="submit"
+                disabled={!text.trim() || !connected}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 px-4"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </form>
+          </div>
+        </div>
+        
+        {/* Participants Panel */}
+        {showParticipants && (
+          <div className="w-64 border-l border-gray-800 bg-gray-900/70 flex-shrink-0">
+            <div className="p-4">
+              <h4 className="text-white font-semibold text-sm mb-3 flex items-center space-x-2">
+                <Users className="w-4 h-4" />
+                <span>Participants ({participants.length})</span>
+              </h4>
+              <div className="space-y-2 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+                {participants.map((participant, index) => (
+                  <div key={participant._id || index} className="flex items-center space-x-3 p-2 rounded-lg bg-gray-800/30">
+                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-medium text-xs">
+                        {(participant.name || participant.username || 'U')[0].toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white text-sm font-medium truncate">
+                        {participant.name || participant.username || 'Unknown User'}
+                      </div>
+                      <div className="text-gray-400 text-xs truncate">
+                        {participant.email}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {participants.length === 0 && (
+                  <div className="text-gray-500 text-sm text-center py-4">
+                    No participants loaded
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

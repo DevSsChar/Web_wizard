@@ -5,14 +5,12 @@ import CreateRoomForm from './CreateRoomForm';
 import JoinRoomForm from './JoinRoomForm';
 import RoomList from './RoomList';
 import ChatWindow from './ChatWindow';
-import UserPanel from './UserPanel';
 import { Button } from '@/components/ui/button';
 import { WifiOff, Wifi } from 'lucide-react';
 
 function InnerChatDashboard({ token }) {
   const { joinRoom, activeRoom, joinedRooms, connected, socketError } = useChat();
   const [error, setError] = useState(null);
-  const [showUserPanel, setShowUserPanel] = useState(false);
 
   const handleCreated = (room) => {
     // Room is already added to joinedRooms in ChatProvider
@@ -27,7 +25,7 @@ function InnerChatDashboard({ token }) {
   const currentRoom = activeRoom ? joinedRooms[activeRoom] : null;
 
   return (
-    <div className="h-[calc(100vh-180px)] flex flex-col">
+    <div className="h-[calc(100vh-200px)] flex flex-col">
       {/* Connection Status */}
       {socketError && (
         <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center space-x-2 flex-shrink-0">
@@ -36,26 +34,21 @@ function InnerChatDashboard({ token }) {
         </div>
       )}
       
-      <div className="grid xl:grid-cols-12 lg:grid-cols-8 gap-6 flex-1 min-h-0">
-        {/* Left Sidebar - Room Management */}
-        <div className="xl:col-span-3 lg:col-span-3 flex flex-col min-h-0 space-y-4">
+      <div className="grid lg:grid-cols-5 gap-6 flex-1 min-h-0">
+        {/* Sidebar */}
+        <div className="lg:col-span-2 flex flex-col min-h-0 space-y-4">
           <div className="flex-shrink-0 space-y-4">
             <CreateRoomForm onCreated={handleCreated} token={token} />
             <JoinRoomForm onJoined={handleJoined} />
           </div>
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
             <RoomList rooms={joinedRooms} activeRoom={activeRoom} onSelect={joinRoom} />
           </div>
         </div>
         
-        {/* Center - Chat Window */}
-        <div className="xl:col-span-6 lg:col-span-5 min-h-0">
+        {/* Chat Window */}
+        <div className="lg:col-span-3 min-h-0">
           <ChatWindow room={currentRoom} />
-        </div>
-        
-        {/* Right Sidebar - User Panel */}
-        <div className="xl:col-span-3 lg:col-span-0 lg:hidden xl:block min-h-0">
-          <UserPanel room={currentRoom} />
         </div>
       </div>
     </div>
