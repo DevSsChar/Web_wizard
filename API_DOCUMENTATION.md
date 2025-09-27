@@ -168,7 +168,7 @@ Authorization: Bearer {token}
 }
 ```
 
-### GET /api/chatrooms/{id}/messages
+### GET /api/chatrooms/{roomId}/messages
 Get last 50 messages from a chatroom (requires authentication).
 
 **Headers:**
@@ -213,7 +213,7 @@ Authorization: Bearer {token}
 
 ## Message Endpoints
 
-### POST /api/messages/room/{id}
+### POST /api/messages/room/{roomId}
 Send a message to a chatroom (requires authentication).
 
 **Headers:**
@@ -295,7 +295,7 @@ Authorization: Bearer {token}
 }
 ```
 
-### GET /api/messages/file/{id}
+### GET /api/messages/file/{fileId}
 Download or stream a media file (requires authentication).
 
 **Headers:**
