@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from '../../../db/connectDB.mjs';
-import ChatRoom from '../../../models/ChatRoom.js';
+import ChatRoom from '../../../models/chatRoom.js';
 import User from '../../../models/user.js';
 import { verifyToken, extractTokenFromHeader } from '../../../utils/jwt.js';
 

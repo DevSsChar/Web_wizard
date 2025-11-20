@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '../../../../../db/connectDB.mjs';
-import ChatRoom from '../../../../../models/ChatRoom.js';
-import Message from '../../../../../models/Message.js';
+import ChatRoom from '../../../../../models/chatRoom.js';
+import Message from '../../../../../models/message.js';
 import User from '../../../../../models/user.js';
 import { verifyToken, extractTokenFromHeader } from '../../../../../utils/jwt.js';
 import { upload, uploadToGridFS, getMessageTypeFromMimeType } from '../../../../../utils/fileUpload.js';

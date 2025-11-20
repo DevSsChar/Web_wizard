@@ -3,8 +3,8 @@ import connectDB from '../../../../../db/connectDB.mjs';
 import { getFileStream, getFileInfo } from '../../../../../utils/fileUpload.js';
 import { verifyToken, extractTokenFromHeader } from '../../../../../utils/jwt.js';
 import User from '../../../../../models/user.js';
-import Message from '../../../../../models/Message.js';
-import ChatRoom from '../../../../../models/ChatRoom.js';
+import Message from '../../../../../models/message.js';
+import ChatRoom from '../../../../../models/chatRoom.js';
 
 export async function GET(request, { params }) {
   try {
