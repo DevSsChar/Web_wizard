@@ -66,6 +66,9 @@ export default function Navbar() {
             <Link href="#about" className="text-gray-300 hover:text-white transition-colors">
               About
             </Link>
+            <Link href="/chat" className="text-gray-300 hover:text-white transition-colors">
+              Chat
+            </Link>
           </motion.div>
 
           {/* CTA Buttons */}

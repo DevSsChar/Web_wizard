@@ -3,6 +3,7 @@ import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,14 +22,25 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionWrapper>
           <Navbar />
           {children}
           <Footer />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: '#1F2937',
+                color: '#F9FAFB',
+                border: '1px solid #374151',
+              },
+            }}
+          />
         </SessionWrapper>
       </body>
     </html>

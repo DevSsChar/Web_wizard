@@ -1,0 +1,809 @@
+@tailwind base;@tailwind base;@import "tailwindcss";
+
+@tailwind components;
+
+@tailwind utilities;@tailwind components;@import "tw-animate-css";
+
+
+
+:root {@tailwind utilities;
+
+  --foreground-rgb: 0, 0, 0;
+
+  --background-start-rgb: 214, 219, 220;@custom-variant dark (&:is(.dark *));
+
+  --background-end-rgb: 255, 255, 255;
+
+}:root {
+
+
+
+@media (prefers-color-scheme: dark) {  --foreground-rgb: 0, 0, 0;:root {
+
+  :root {
+
+    --foreground-rgb: 255, 255, 255;  --background-start-rgb: 214, 219, 220;
+
+    --background-start-rgb: 0, 0, 0;
+
+    --background-end-rgb: 0, 0, 0;  --background-end-rgb: 255, 255, 255;  /* Login Component Variables */
+
+  }
+
+}}  --color-bg: #101214;
+
+
+
+body {  --color-surface:   .scrollbar-track-transparent {
+
+  color: rgb(var(--foreground-rgb));
+
+  background: linear-gradient(@media (prefers-color-scheme: dark) {    scrollbar-color: rgb(55 65 81) transparent;
+
+      to bottom,
+
+      transparent,  :root {  }
+
+      rgb(var(--background-end-rgb))
+
+    )    --foreground-rgb: 255, 255, 255;  
+
+    rgb(var(--background-start-rgb));
+
+}    --background-start-rgb: 0, 0, 0;  /* Toast Animations */
+
+
+
+@layer utilities {    --background-end-rgb: 0, 0, 0;  @keyframes slide-in-from-right {
+
+  .text-balance {
+
+    text-wrap: balance;  }    from {
+
+  }
+
+}}      transform: translateX(100%);
+
+
+
+/* Chat specific styles */      opacity: 0;
+
+.glass-card {
+
+  background: rgba(31, 41, 55, 0.8);body {    }
+
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(55, 65, 81, 0.3);  color: rgb(var(--foreground-rgb));    to {
+
+}
+
+  background: linear-gradient(      transform: translateX(0);
+
+.glass-effect {
+
+  background: rgba(17, 24, 39, 0.7);      to bottom,      opacity: 1;
+
+  backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(75, 85, 99, 0.2);      transparent,    }
+
+}
+
+      rgb(var(--background-end-rgb))  }
+
+.gradient-border {
+
+  position: relative;    )  
+
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+
+  border: 1px solid transparent;    rgb(var(--background-start-rgb));  .animate-in {
+
+}
+
+}    animation-duration: 300ms;
+
+.gradient-border::before {
+
+  content: '';    animation-fill-mode: both;
+
+  position: absolute;
+
+  inset: 0;@layer utilities {  }
+
+  padding: 1px;
+
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));  .text-balance {  
+
+  border-radius: inherit;
+
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);    text-wrap: balance;  .slide-in-from-right-5 {
+
+  mask-composite: xor;
+
+  -webkit-mask-composite: xor;  }    animation-name: slide-in-from-right;
+
+  pointer-events: none;
+
+}}  }
+
+
+
+.scrollbar-thin {}161A1D;
+
+  scrollbar-width: thin;
+
+  scrollbar-color: rgb(55 65 81) transparent;/* Chat specific styles */  --color-muted-surface: #1D2125;
+
+}
+
+.glass-card {  --color-border: #2C333A;
+
+.scrollbar-thin::-webkit-scrollbar {
+
+  width: 6px;  background: rgba(31, 41, 55, 0.8);  --color-text-secondary: #596773;
+
+}
+
+  backdrop-filter: blur(12px);  --color-text-primary: #C7D1DB;
+
+.scrollbar-thin::-webkit-scrollbar-track {
+
+  background: transparent;  border: 1px solid rgba(55, 65, 81, 0.3);  --color-heading: #DEE4EA;
+
+}
+
+}  --spacing-6: 1.5rem;
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+
+  background-color: rgb(55 65 81);  --rounded-lg: 0.5rem;
+
+  border-radius: 3px;
+
+}.glass-effect {  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
+
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {  background: rgba(17, 24, 39, 0.7);  --color-text-primary-rgb: 199, 209, 219;
+
+  background-color: rgb(75 85 99);
+
+}  backdrop-filter: blur(8px);  --color-bg-2: #C7D1DB;
+
+
+
+.scrollbar-thumb-gray-700 {  border: 1px solid rgba(75, 85, 99, 0.2);  --radius: 0.625rem;
+
+  scrollbar-color: rgb(55 65 81) transparent;
+
+}}  --background: oklch(1 0 0);
+
+
+
+.scrollbar-track-transparent {  --foreground: oklch(0.147 0.004 49.25);
+
+  scrollbar-color: rgb(55 65 81) transparent;
+
+}.gradient-border {  --card: oklch(1 0 0);
+
+
+
+/* Toast Animations */  position: relative;  --card-foreground: oklch(0.147 0.004 49.25);
+
+@keyframes slide-in-from-right {
+
+  from {  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));  --popover: oklch(1 0 0);
+
+    transform: translateX(100%);
+
+    opacity: 0;  border: 1px solid transparent;  --popover-foreground: oklch(0.147 0.004 49.25);
+
+  }
+
+  to {}  --primary: oklch(0.216 0.006 56.043);
+
+    transform: translateX(0);
+
+    opacity: 1;  --primary-foreground: oklch(0.985 0.001 106.423);
+
+  }
+
+}.gradient-border::before {  --secondary: oklch(0.97 0.001 106.424);
+
+
+
+@keyframes slide-out-to-right {  content: '';  --secondary-foreground: oklch(0.216 0.006 56.043);
+
+  from {
+
+    transform: translateX(0);  position: absolute;  --muted: oklch(0.97 0.001 106.424);
+
+    opacity: 1;
+
+  }  inset: 0;  --muted-foreground: oklch(0.553 0.013 58.071);
+
+  to {
+
+    transform: translateX(100%);  padding: 1px;  --accent: oklch(0.97 0.001 106.424);
+
+    opacity: 0;
+
+  }  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));  --accent-foreground: oklch(0.216 0.006 56.043);
+
+}
+
+  border-radius: inherit;  --destructive: oklch(0.577 0.245 27.325);
+
+@keyframes fade-in {
+
+  from {  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);  --border: oklch(0.923 0.003 48.717);
+
+    opacity: 0;
+
+  }  mask-composite: xor;  --input: oklch(0.923 0.003 48.717);
+
+  to {
+
+    opacity: 1;  -webkit-mask-composite: xor;  --ring: oklch(0.709 0.01 56.259);
+
+  }
+
+}  pointer-events: none;  --chart-1: oklch(0.646 0.222 41.116);
+
+
+
+@keyframes fade-out {}  --chart-2: oklch(0.6 0.118 184.704);
+
+  from {
+
+    opacity: 1;  --chart-3: oklch(0.398 0.07 227.392);
+
+  }
+
+  to {.scrollbar-thin {  --chart-4: oklch(0.828 0.189 84.429);
+
+    opacity: 0;
+
+  }  scrollbar-width: thin;  --chart-5: oklch(0.769 0.188 70.08);
+
+}
+
+  scrollbar-color: rgb(55 65 81) transparent;  --sidebar: oklch(0.985 0.001 106.423);
+
+.animate-in {
+
+  animation-duration: 300ms;}  --sidebar-foreground: oklch(0.147 0.004 49.25);
+
+  animation-fill-mode: both;
+
+}  --sidebar-primary: oklch(0.216 0.006 56.043);
+
+
+
+.animate-out {.scrollbar-thin::-webkit-scrollbar {  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+
+  animation-duration: 200ms;
+
+  animation-fill-mode: both;  width: 6px;  --sidebar-accent: oklch(0.97 0.001 106.424);
+
+}
+
+}  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
+
+.slide-in-from-right-5 {
+
+  animation-name: slide-in-from-right;  --sidebar-border: oklch(0.923 0.003 48.717);
+
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {  --sidebar-ring: oklch(0.709 0.01 56.259);
+
+.slide-out-to-right-5 {
+
+  animation-name: slide-out-to-right;  background: transparent;}
+
+}
+
+}
+
+.fade-in {
+
+  animation-name: fade-in;/* Theme variables for component compatibility */
+
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+
+.fade-out {
+
+  animation-name: fade-out;  background-color: rgb(55 65 81);.dark {
+
+}
+
+  border-radius: 3px;  --color-bg: #101214;
+
+/* Additional toast styles */
+
+.toast-success {}  --color-surface: #161A1D;
+
+  border-left: 4px solid #10b981;
+
+}  --color-muted-surface: #1D2125;
+
+
+
+.toast-error {.scrollbar-thin::-webkit-scrollbar-thumb:hover {  --color-border: #2C333A;
+
+  border-left: 4px solid #ef4444;
+
+}  background-color: rgb(75 85 99);  --color-text-secondary: #596773;
+
+
+
+.toast-warning {}  --color-text-primary: #C7D1DB;
+
+  border-left: 4px solid #f59e0b;
+
+}  --color-heading: #DEE4EA;
+
+
+
+.toast-info {.scrollbar-thumb-gray-700 {  --color-bg-2: #C7D1DB;
+
+  border-left: 4px solid #3b82f6;
+
+}  scrollbar-color: rgb(55 65 81) transparent;  --color-text-primary-rgb: 199, 209, 219;
+
+
+
+/* Hover effects */}  --background: oklch(0.147 0.004 49.25);
+
+.hover-lift {
+
+  transition: transform 0.2s ease-in-out;  --foreground: oklch(0.985 0.001 106.423);
+
+}
+
+.scrollbar-track-transparent {  --card: oklch(0.216 0.006 56.043);
+
+.hover-lift:hover {
+
+  transform: translateY(-2px);  scrollbar-color: rgb(55 65 81) transparent;  --card-foreground: oklch(0.985 0.001 106.423);
+
+}
+
+}  --popover: oklch(0.216 0.006 56.043);
+
+/* Typing indicator animation */
+
+@keyframes typing {  --popover-foreground: oklch(0.985 0.001 106.423);
+
+  0%, 60%, 100% {
+
+    transform: translateY(0);/* Toast Animations */  --primary: oklch(0.923 0.003 48.717);
+
+  }
+
+  30% {@keyframes slide-in-from-right {  --primary-foreground: oklch(0.216 0.006 56.043);
+
+    transform: translateY(-10px);
+
+  }  from {  --secondary: oklch(0.268 0.007 34.298);
+
+}
+
+    transform: translateX(100%);  --secondary-foreground: oklch(0.985 0.001 106.423);
+
+.typing-dot {
+
+  animation: typing 1.4s infinite ease-in-out;    opacity: 0;  --muted: oklch(0.268 0.007 34.298);
+
+}
+
+  }  --muted-foreground: oklch(0.709 0.01 56.259);
+
+.typing-dot:nth-child(1) {
+
+  animation-delay: 0s;  to {  --accent: oklch(0.268 0.007 34.298);
+
+}
+
+    transform: translateX(0);  --accent-foreground: oklch(0.985 0.001 106.423);
+
+.typing-dot:nth-child(2) {
+
+  animation-delay: 0.2s;    opacity: 1;  --destructive: oklch(0.704 0.191 22.216);
+
+}
+
+  }  --border: oklch(1 0 0 / 10%);
+
+.typing-dot:nth-child(3) {
+
+  animation-delay: 0.4s;}  --input: oklch(1 0 0 / 15%);
+
+}
+
+  --ring: oklch(0.553 0.013 58.071);
+
+/* Custom button styles */
+
+.btn-primary {@keyframes slide-out-to-right {  --chart-1: oklch(0.488 0.243 264.376);
+
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));
+
+  transition: all 0.3s ease;  from {  --chart-2: oklch(0.696 0.17 162.48);
+
+}
+
+    transform: translateX(0);  --chart-3: oklch(0.769 0.188 70.08);
+
+.btn-primary:hover {
+
+  background: linear-gradient(135deg, rgb(79, 82, 221), rgb(148, 65, 227));    opacity: 1;  --chart-4: oklch(0.627 0.265 303.9);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);  }  --chart-5: oklch(0.645 0.246 16.439);
+
+}
+
+  to {  --sidebar: oklch(0.216 0.006 56.043);
+
+.btn-secondary {
+
+  background: rgba(55, 65, 81, 0.8);    transform: translateX(100%);  --sidebar-foreground: oklch(0.985 0.001 106.423);
+
+  border: 1px solid rgba(75, 85, 99, 0.3);
+
+  transition: all 0.3s ease;    opacity: 0;  --sidebar-primary: oklch(0.488 0.243 264.376);
+
+}
+
+  }  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+
+.btn-secondary:hover {
+
+  background: rgba(75, 85, 99, 0.8);}  --sidebar-accent: oklch(0.268 0.007 34.298);
+
+  border-color: rgba(99, 102, 241, 0.5);
+
+}  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
+
+
+
+/* Form input styles */@keyframes fade-in {  --sidebar-border: oklch(1 0 0 / 10%);
+
+.form-input {
+
+  background: rgba(31, 41, 55, 0.5);  from {  --sidebar-ring: oklch(0.553 0.013 58.071);
+
+  border: 1px solid rgba(75, 85, 99, 0.3);
+
+  transition: all 0.3s ease;    opacity: 0;}
+
+}
+
+  }
+
+.form-input:focus {
+
+  border-color: rgb(99, 102, 241);  to {@theme inline {
+
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+
+  background: rgba(31, 41, 55, 0.8);    opacity: 1;  --radius-sm: calc(var(--radius) - 4px);
+
+}
+
+  }  --radius-md: calc(var(--radius) - 2px);
+
+/* Message bubble styles */
+
+.message-bubble-user {}  --radius-lg: var(--radius);
+
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));
+
+}  --radius-xl: calc(var(--radius) + 4px);
+
+
+
+.message-bubble-other {@keyframes fade-out {  --color-background: var(--background);
+
+  background: rgba(55, 65, 81, 0.8);
+
+}  from {  --color-foreground: var(--foreground);
+
+
+
+/* User panel styles */    opacity: 1;  --color-card: var(--card);
+
+.user-avatar {
+
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));  }  --color-card-foreground: var(--card-foreground);
+
+}
+
+  to {  --color-popover: var(--popover);
+
+.online-indicator {
+
+  background: #10b981;    opacity: 0;  --color-popover-foreground: var(--popover-foreground);
+
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+
+}  }  --color-primary: var(--primary);
+
+
+
+.offline-indicator {}  --color-primary-foreground: var(--primary-foreground);
+
+  background: #6b7280;
+
+}  --color-secondary: var(--secondary);
+
+
+
+/* Room card styles */.animate-in {  --color-secondary-foreground: var(--secondary-foreground);
+
+.room-card {
+
+  background: rgba(31, 41, 55, 0.6);  animation-duration: 300ms;  --color-muted: var(--muted);
+
+  border: 1px solid rgba(75, 85, 99, 0.2);
+
+  transition: all 0.3s ease;  animation-fill-mode: both;  --color-muted-foreground: var(--muted-foreground);
+
+}
+
+}  --color-accent: var(--accent);
+
+.room-card:hover {
+
+  background: rgba(31, 41, 55, 0.8);  --color-accent-foreground: var(--accent-foreground);
+
+  border-color: rgba(99, 102, 241, 0.3);
+
+  transform: translateY(-1px);.animate-out {  --color-destructive: var(--destructive);
+
+}
+
+  animation-duration: 200ms;  --color-border: var(--border);
+
+/* Private room indicator */
+
+.private-room-badge {  animation-fill-mode: both;  --color-input: var(--input);
+
+  background: linear-gradient(135deg, rgb(168, 85, 247), rgb(236, 72, 153));
+
+}}  --color-ring: var(--ring);
+
+
+
+/* Loading spinner */  --color-chart-1: var(--chart-1);
+
+@keyframes spin {
+
+  from {.slide-in-from-right-5 {  --color-chart-2: var(--chart-2);
+
+    transform: rotate(0deg);
+
+  }  animation-name: slide-in-from-right;  --color-chart-3: var(--chart-3);
+
+  to {
+
+    transform: rotate(360deg);}  --color-chart-4: var(--chart-4);
+
+  }
+
+}  --color-chart-5: var(--chart-5);
+
+
+
+.loading-spinner {.slide-out-to-right-5 {  --color-sidebar: var(--sidebar);
+
+  animation: spin 1s linear infinite;
+
+}  animation-name: slide-out-to-right;  --color-sidebar-foreground: var(--sidebar-foreground);
+
+}  --color-sidebar-primary: var(--sidebar-primary);
+
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+
+.fade-in {  --color-sidebar-accent: var(--sidebar-accent);
+
+  animation-name: fade-in;  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+
+}  --color-sidebar-border: var(--sidebar-border);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+
+.fade-out {}
+
+  animation-name: fade-out;
+
+}@layer base {
+
+  * {
+
+/* Additional toast styles */    @apply border-border outline-ring/50;
+
+.toast-success {  }
+
+  border-left: 4px solid #10b981;  body {
+
+}    @apply bg-background text-foreground;
+
+  }
+
+.toast-error {}
+
+  border-left: 4px solid #ef4444;
+
+}/* Custom Scrollbar Styles for Chat */
+
+@layer utilities {
+
+.toast-warning {  .scrollbar-thin {
+
+  border-left: 4px solid #f59e0b;    scrollbar-width: thin;
+
+}    scrollbar-color: rgb(55 65 81) transparent;
+
+  }
+
+.toast-info {  
+
+  border-left: 4px solid #3b82f6;  .scrollbar-thin::-webkit-scrollbar {
+
+}    width: 6px;
+
+  }
+
+/* Hover effects */  
+
+.hover-lift {  .scrollbar-thin::-webkit-scrollbar-track {
+
+  transition: transform 0.2s ease-in-out;    background: transparent;
+
+}  }
+
+  
+
+.hover-lift:hover {  .scrollbar-thin::-webkit-scrollbar-thumb {
+
+  transform: translateY(-2px);    background-color: rgb(55 65 81);
+
+}    border-radius: 3px;
+
+  }
+
+/* Typing indicator animation */  
+
+@keyframes typing {  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+
+  0%, 60%, 100% {    background-color: rgb(75 85 99);
+
+    transform: translateY(0);  }
+
+  }  
+
+  30% {  .scrollbar-thumb-gray-700 {
+
+    transform: translateY(-10px);    scrollbar-color: rgb(55 65 81) transparent;
+
+  }  }
+
+}  
+
+  .scrollbar-track-transparent {\n    scrollbar-color: rgb(55 65 81) transparent;\n  }\n  \n  /* Toast Animations */\n  @keyframes slide-in-from-right {\n    from {\n      transform: translateX(100%);\n      opacity: 0;\n    }\n    to {\n      transform: translateX(0);\n      opacity: 1;\n    }\n  }\n  \n  .animate-in {\n    animation-duration: 300ms;\n    animation-fill-mode: both;\n  }\n  \n  .slide-in-from-right-5 {\n    animation-name: slide-in-from-right;\n  }\n}
+
+.typing-dot {}
+
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Custom button styles */
+.btn-primary {
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, rgb(79, 82, 221), rgb(148, 65, 227));
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+}
+
+.btn-secondary {
+  background: rgba(55, 65, 81, 0.8);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(75, 85, 99, 0.8);
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+/* Form input styles */
+.form-input {
+  background: rgba(31, 41, 55, 0.5);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: rgb(99, 102, 241);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background: rgba(31, 41, 55, 0.8);
+}
+
+/* Message bubble styles */
+.message-bubble-user {
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));
+}
+
+.message-bubble-other {
+  background: rgba(55, 65, 81, 0.8);
+}
+
+/* User panel styles */
+.user-avatar {
+  background: linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247));
+}
+
+.online-indicator {
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.offline-indicator {
+  background: #6b7280;
+}
+
+/* Room card styles */
+.room-card {
+  background: rgba(31, 41, 55, 0.6);
+  border: 1px solid rgba(75, 85, 99, 0.2);
+  transition: all 0.3s ease;
+}
+
+.room-card:hover {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Private room indicator */
+.private-room-badge {
+  background: linear-gradient(135deg, rgb(168, 85, 247), rgb(236, 72, 153));
+}
+
+/* Loading spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
