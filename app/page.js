@@ -360,7 +360,7 @@ export default function Home() {
             {/* Text Reveal Effect */}
             <TextReveal 
               text="ChatSecure is the modern real-time chat platform designed to connect people instantly with secure authentication, persistent messaging, and live presence indicators. Experience seamless communication."
-              className="min-h-[400px]"
+              className="min-h-[400px] !text-white"
             />
           </div>
           
