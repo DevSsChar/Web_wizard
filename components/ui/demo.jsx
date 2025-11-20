@@ -1,11 +1,17 @@
-import LoginComponent from "@/components/ui/login-1";
+import { Squares } from "@/components/ui/squares-background"
 
-const DemoOne = () => {
+export function SquaresDemo() {
   return (
-    <div className="flex w-full h-screen justify-center items-center">
-      <LoginComponent />
+    <div className="space-y-8">
+      <div className="relative h-[400px] rounded-lg overflow-hidden bg-[#060606]">
+        <Squares 
+          direction="diagonal"
+          speed={0.5}
+          squareSize={40}
+          borderColor="#333" 
+          hoverFillColor="#222"
+        />
+      </div>
     </div>
-  );
-};
-
-export { DemoOne };
+  )
+}
