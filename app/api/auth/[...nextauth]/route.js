@@ -16,43 +16,43 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  session: { strategy: "jwt" },
+
+  session: {
+    strategy: "jwt",
+  },
+
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       await connectDB();
 
-      try {
-        // Check if user exists or create new one
-        let dbUser = await User.findOne({ email: user.email });
-        
-        if (!dbUser) {
-          dbUser = await User.create({
-            email: user.email,
-            name: user.name,
-            image: user.image,
-          });
-        }
+      let dbUser = await User.findOne({ email: user.email });
 
-        return true;
-      } catch (error) {
-        console.error("Error during sign in:", error);
-        return false;
+      if (!dbUser) {
+        await User.create({
+          email: user.email,
+          name: user.name,
+          image: user.image,
+        });
       }
+
+      return true;
     },
 
-    async session({ session, token }) {
-      if (session?.user?.email) {
-        await connectDB();
-        const dbUser = await User.findOne({ email: session.user.email });
-        if (dbUser) {
-          session.user.id = dbUser._id.toString();
-        }
+    async session({ session }) {
+      await connectDB();
+
+      const dbUser = await User.findOne({ email: session.user.email });
+
+      if (dbUser) {
+        session.user.id = dbUser._id.toString();
       }
+
       return session;
     },
   },
+
   pages: {
     signIn: "/login",
   },

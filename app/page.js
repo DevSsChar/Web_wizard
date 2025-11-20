@@ -289,7 +289,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Zero-Knowledge Architecture</h3>
                     <p className="text-gray-400">
-                      We can't read your messages even if we wanted to. All encryption happens on your device.
+                      We can not read your messages even if we wanted to. All encryption happens on your device.
                     </p>
                   </div>
                 </div>
