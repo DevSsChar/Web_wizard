@@ -31,5 +31,5 @@ const connectDB = async () => {
         throw new Error("Database connection error"); // Do not exit process
     }
 };
-// connectDB()
+connectDB()
 export default connectDB;

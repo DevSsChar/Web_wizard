@@ -51,7 +51,7 @@ const chatRoomSchema = new mongoose.Schema(
 // Hash password before saving
 chatRoomSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-
+  
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -70,13 +70,13 @@ chatRoomSchema.methods.comparePassword = async function(candidatePassword) {
 chatRoomSchema.statics.generateUniqueRoomId = async function() {
   let roomId;
   let exists = true;
-
+  
   while (exists) {
     roomId = Math.floor(100000 + Math.random() * 900000).toString();
     const existingRoom = await this.findOne({ roomId });
     exists = !!existingRoom;
   }
-
+  
   return roomId;
 };
 
